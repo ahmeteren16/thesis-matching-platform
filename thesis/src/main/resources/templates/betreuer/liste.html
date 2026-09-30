@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Betreuer Liste</title>
+</head>
+<body>
+<h1>Liste der Betreuer</h1>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <caption>Liste der Betreuer</caption>
+    <thead>
+    <tr style="background-color: #f2f2f2;">
+        <th style="border: 1px solid #ccc; padding: 8px;" scope="col">Name</th>
+        <th style="border: 1px solid #ccc; padding: 8px;" scope="col">E-Mail</th>
+        <th style="border: 1px solid #ccc; padding: 8px;" scope="col">ID</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="b : ${betreuer}">
+        <td style="border: 1px solid #ccc; padding: 8px;">
+            <a th:href="@{/betreuer/details/{id}(id=${b.id})}"
+               th:text="${b.name}" th:aria-label="'Details von Betreuer ' + ${b.name}">
+            </a>
+        </td>
+
+        <td style="border: 1px solid #ccc; padding: 8px;"
+            th:text="${b.email}">
+        </td>
+
+        <td style="border: 1px solid #ccc; padding: 8px;"
+            th:text="${b.id}">
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Zurück zur Startseite</a>
+
+</body>
+</html>

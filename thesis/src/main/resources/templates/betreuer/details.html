@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${betreuer.name}">Betreuer Details</title>
+</head>
+<body>
+    <h1>Details des Betreuers</h1>
+
+    <div th:if="${message}" style="color: green;">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div>
+        <h2>Kontaktinformationen</h2>
+        <p><strong>Id:</strong> <span th:text="${betreuer.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${betreuer.name}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${betreuer.email}"></span></p>
+        <p><strong>GitHub ID:</strong> <span th:text="${betreuer.githubID}"></span></p>
+    </div>
+
+    <div>
+        <h2>Fachgebiete</h2>
+        <ul>
+            <li th:each="tag : ${betreuer.tags}" th:text="${tag}"></li>
+        </ul>
+    </div>
+
+    <div>
+        <h2>Informationsdateien</h2>
+        
+        <a sec:authorize="hasRole('ROLE_BETREUER')" th:href="@{/betreuer/{id}/dateien/upload(id=${betreuer.id})}">
+            Neue Datei hochladen
+        </a>
+
+        <div th:if="${dateien.isEmpty()}">
+            <p>Noch keine Dateien hochgeladen.</p>
+        </div>
+
+        <table th:unless="${dateien.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Beschreibung</th>
+                    <th>Hochgeladen von</th>
+                    <th>Hochgeladen am</th>
+                    <th>Typ</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="datei : ${dateien}">
+                    <td>
+                        <a th:if="${datei.dateiTyp.name() == 'MARKDOWN'}"
+                           th:href="@{/betreuer/{bid}/dateien/{did}/view(bid=${betreuer.id}, did=${datei.id})}"
+                           th:text="${datei.titel}">
+                        </a>
+                        <a th:unless="${datei.dateiTyp.name() == 'MARKDOWN'}"
+                           th:href="@{/betreuer/{bid}/dateien/{did}/download(bid=${betreuer.id}, did=${datei.id})}"
+                           th:text="${datei.titel}">
+                        </a>
+                    </td>
+                    <td th:text="${datei.beschreibung ?: '-'}"></td>
+                    <td th:text="${datei.uploaderName}"></td>
+                    <td th:text="${#temporals.format(datei.uploadDatum, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${datei.dateiTyp.name()}"></td>
+                    <td sec:authorize="hasRole('ROLE_BETREUER')">
+                        <form method="post" 
+                              th:action="@{/betreuer/{bid}/dateien/{did}/delete(bid=${betreuer.id}, did=${datei.id})}"
+                              style="display: inline;">
+                            <button type="submit" 
+                                    onclick="return confirm('Datei wirklich löschen?');">
+                                Löschen
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p><a th:href="@{/betreuer}">Zurück zur Liste</a></p>
+    <form th:action="@{/betreuer/details/{id}(id=${betreuer.id})}" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+</body>
+</html>

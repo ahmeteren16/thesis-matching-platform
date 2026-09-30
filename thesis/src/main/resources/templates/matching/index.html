@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Matching</title>
+</head>
+<body>
+    <h1>Thema-Betreuer Matching</h1>
+
+    <h2>Verfügbare Themen</h2>
+    <ul>
+        <li th:each="t : ${themen}">
+            <span th:text="${t.titel}"></span> - <span th:text="${t.beschreibung}"></span>
+        </li>
+    </ul>
+
+    <h2>Verfügbare Betreuer</h2>
+    <ul>
+        <li th:each="b : ${betreuer}">
+            <a th:href="@{/betreuer/details/{id}(id=${b.id})}"
+               th:text="${b.name}"></a> - <span th:text="${b.email}"></span>
+        </li>
+    </ul>
+
+    <form th:action="@{/matching}" method="get" class="mb-3">
+        <label for="titel">Titel</label>
+        <input id="titel" name="titel" type="text"
+               th:value="${titel}" placeholder="z.B. Programmierung" />
+
+        <label for="voraussetzung">Voraussetzung</label>
+        <input id="voraussetzung" name="voraussetzung" type="text"
+               th:value="${voraussetzung}" placeholder="z.B. Java" />
+        <button type="submit">Suchen</button>
+    </form>
+    <br>
+
+    <a th:href="@{/}">Zurück zur Startseite</a>
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${datei.titel}">Markdown Ansicht</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .metadata {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .content {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${datei.titel}">Titel</h1>
+
+    <div class="metadata">
+        <p><strong>Hochgeladen von:</strong> <span th:text="${datei.uploaderName}"></span></p>
+        <p><strong>Hochgeladen am:</strong> 
+           <span th:text="${#temporals.format(datei.uploadDatum, 'dd.MM.yyyy HH:mm')}"></span>
+        </p>
+        <p th:if="${datei.beschreibung}">
+            <strong>Beschreibung:</strong> <span th:text="${datei.beschreibung}"></span>
+        </p>
+    </div>
+
+    <div class="content" th:utext="${htmlContent}">
+    </div>
+
+    <hr>
+    <p>
+        <a th:href="@{/betreuer/{id}(id=${betreuer.id})}">Zurück zum Profil</a>
+    </p>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Datei hochladen</title>
+</head>
+<body>
+    <h1>Datei hochladen für <span th:text="${betreuer.name}"></span></h1>
+
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form method="post" 
+          th:action="@{/betreuer/{id}/dateien/upload(id=${betreuer.id})}" 
+          enctype="multipart/form-data">
+        
+        <div>
+            <label for="titel">Titel:</label>
+            <input type="text" id="titel" name="titel" required maxlength="255">
+        </div>
+
+        <div>
+            <label for="beschreibung">Beschreibung (optional):</label>
+            <textarea id="beschreibung" name="beschreibung" rows="4"></textarea>
+        </div>
+
+        <div>
+            <label for="file">Datei auswählen (PDF, ZIP oder Markdown, max. 10 MB):</label>
+            <input type="file" id="file" name="file" 
+                   accept=".pdf,.zip,.md" required>
+        </div>
+
+        <button type="submit">Hochladen</button>
+        <a th:href="@{/betreuer/{id}(id=${betreuer.id})}">Abbrechen</a>
+    </form>
+</body>
+</html>

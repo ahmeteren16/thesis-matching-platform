@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Liste der Themen</h1>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+    <tr style="background-color: #f2f2f2;">
+        <th style="border: 1px solid #ccc; padding: 8px;">Titel</th>
+        <th style="border: 1px solid #ccc; padding: 8px;">Beschreibung</th>
+        <th style="border: 1px solid #ccc; padding: 8px;">Voraussetzungen</th>
+        <th style="border: 1px solid #ccc; padding: 8px;">Betreuer</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="t : ${themen}">
+        <td style="border: 1px solid #ccc; padding: 8px;"
+            th:text="${t.titel}">
+        </td>
+
+        <td style="border: 1px solid #ccc; padding: 8px;"
+            th:text="${t.beschreibung}">
+        </td>
+
+        <td style="border: 1px solid #ccc; padding: 8px;">
+            <span th:if="${#lists.isEmpty(t.voraussetzungen)}">–</span>
+            <span th:unless="${#lists.isEmpty(t.voraussetzungen)}"
+                  th:text="${#strings.listJoin(t.voraussetzungen, ', ')}">
+                </span>
+        </td>
+
+        <td style="border: 1px solid #ccc; padding: 8px;"
+            th:text="${t.betreuerId}">
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+<a sec:authorize="hasRole('ROLE_BETREUER')" th:href="@{/themen/add}">Thema hinzufügen</a> <br> <br>
+
+<a th:href="@{/}">Zurück zur Startseite</a>
+
+</body>
+</html>

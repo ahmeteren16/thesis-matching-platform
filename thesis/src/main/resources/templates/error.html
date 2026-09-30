@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${errorTitle}">Fehler</title>
+</head>
+<body>
+<h1 th:text="${errorTitle}">Unerwarteter Fehler</h1>
+<p th:text="${errorMessage}">
+    Bitte versuchen Sie es später erneut.
+</p> <br>
+
+<a th:href="@{/}">Zurück zur Startseite</a>
+</body>
+</html>

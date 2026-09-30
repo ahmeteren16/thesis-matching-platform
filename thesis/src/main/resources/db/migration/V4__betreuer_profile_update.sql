@@ -1,0 +1,2 @@
+ALTER TABLE betreuer_profile
+    ADD COLUMN version BIGINT NOT NULL DEFAULT 0;

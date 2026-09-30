@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #0066cc;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Startseite</h1>
+
+<p>Bitte wählen Sie eine Funktion:</p>
+
+<ul>
+
+    <li sec:authorize="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/betreuer/add}" aria-label="Betreuer hinzufügen">
+             Betreuer hinzufügen
+        </a>
+    </li>
+
+
+
+
+    <li>
+        <a th:href="@{/betreuer}" aria-label="Betreuerliste anzeigen">
+             Betreuerliste anzeigen
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/matching}" aria-label="Finde einen passenden Betreuer">
+             Finde einen passenden Betreuer
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/themen}" aria-label="Themenliste anzeigen">
+             Themenliste anzeigen
+        </a>
+    </li>
+</ul>
+
+</body>
+</html>
